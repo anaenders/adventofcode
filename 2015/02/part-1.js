@@ -1,4 +1,4 @@
-// Puzzle 2
+// Puzzle 2.1
 const fs = require('fs')
 const dimensions = fs.readFileSync('./input.txt', 'utf8')
 const lines = dimensions.split('\n')

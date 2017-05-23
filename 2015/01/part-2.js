@@ -1,18 +1,17 @@
 // Puzzle 1.2
-
-var fs = require('fs');
-var puzzleInput = fs.readFileSync('./input.txt', 'utf8');
-var currentFloor = 0;
+var fs = require('fs')
+var puzzleInput = fs.readFileSync('./input.txt', 'utf8')
+var currentFloor = 0
 
 for (input in puzzleInput) {
     if (puzzleInput[input] == "(") {
-        currentFloor++;
+        currentFloor++
     } else {
-        currentFloor--;
+        currentFloor--
     }
     if (currentFloor === -1) {
-        break;
+        break
     }
 }
 
-console.log ("Santa entered the basement at character position " + (parseInt(input) + 1));
+console.log (`Santa entered the basement at character position ${parseInt(input) + 1}`)
