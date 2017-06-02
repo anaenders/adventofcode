@@ -1,3 +1,5 @@
+// Problem 3
+
 const fs = require('fs')
 const directions = fs.readFileSync('./input.txt', 'utf8')
 let coordinates = "0,0"
@@ -34,7 +36,6 @@ const calcMoves = (startPosition, moveBy) => {
         }
     }
 }
-
 
 // Part 1
 // Comment out the code in part 2 if you want accurate results for part 1
