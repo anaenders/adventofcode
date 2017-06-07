@@ -6,7 +6,8 @@ let line = [];
 let atLeast3Vowels;
 let doubleLetters;
 let badSubstring;
-let count = 0;
+let niceStrings = 0;
+let newNiceStrings = 0;
 
 const checkForVowels = (line) => {
     atLeast3Vowels = false;
@@ -70,14 +71,60 @@ const checkForBadSubstrings = (line) => {
 
 for(let i = 0; i < lines.length; i++) {
     line = lines[i].split('');
+
     checkForVowels(line);
     checkForRepeats(line);
     checkForBadSubstrings(line);
     if(atLeast3Vowels && doubleLetters && !badSubstring) {
-        count ++;
+        niceStrings ++;
     }
 }
 
-console.log(`There are ${count} nice strings.`);
+console.log(`There are ${niceStrings} nice strings.`);
 
 // Part 2
+
+const findPairs = (line) => {
+    let pair = [];
+    let match = false;
+    for(let i = 0; i < line.length - 1; i++) {
+        pair[i] = `${line[i]}${line[i+1]}`;
+    }
+    for(let j = 0; j < pair.length; j++) {
+        for(let k = 0; k < pair.length; k++) {
+            if(k != j && (k != j - 1) && (k != j+1)) {
+                if(pair[j] === pair[k]) {
+                    // console.log(`${pair[j]} and ${pair[k]} are a pair`);
+                    return match = true;
+                }
+            }
+        }
+    }
+}
+
+const findPalindromes = (line) => {
+    let triplet = [];
+    let match = false;
+    for(let i = 0; i < line.length - 3; i++) {
+        triplet[i] = [[line[i], line[i+1], line[i+2]]];
+    }
+    for(let j = 0; j < triplet.length; j++) {
+        if(triplet[j][0][0] === triplet[j][0][2]) {
+            // console.log(`${triplet[j]} is a palindrome`);
+            return match = true;
+        }
+    }
+}
+
+for(let i = 0; i < lines.length; i++) {
+    line = lines[i].split('');
+    let pairs = findPairs(line);
+    let palindromes = findPalindromes(line);
+
+    if(pairs && palindromes) {
+        newNiceStrings ++;
+        // console.log(`${lines[i]} is a nice string.`);
+    }
+}
+
+console.log(`There are ${newNiceStrings} new nice strings.`);
