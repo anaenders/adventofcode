@@ -7,3 +7,4 @@
 3. [Perfectly Spherical Houses in a Vacuum](2015/03)
 4. [The Ideal Stocking Stuffer](2015/04)
 5. [Doesn't He Have Intern-Elves For This?](2015/05)
+6. [Probably a Fire Hazard](2015/06)
