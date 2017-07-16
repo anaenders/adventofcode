@@ -3,37 +3,40 @@
 const fs = require('fs');
 const instructions = fs.readFileSync('./input.txt', 'utf8');
 const line = instructions.split('\n');
-const unsortedRoutes = {};
-const sortedRoutes = {};
-const uniqueLocations = {};
+
+const sortObj = (obj) => {
+    const sortedObj = {};
+    const tempArr = Object.keys(obj).sort((a, b) => obj[a] - obj[b]);
+    tempArr.forEach((key) => sortedObj[key] = obj[key]);
+    return sortedObj;
+}
+
+const objToArr = (obj) => {
+    for(let i = 0; i < Object.keys(obj).length; i++) {
+        arr = Object.keys(obj);
+    }
+    return arr;
+}
 
 const getShortestRoute = () => {
+    const routes = {}, uniqueLocations = {}, combos = {};
+    let uniqueLocationsArr, routesArr, combosArr;
 
-    // Location pairs -> distances
+    // Object with routes
     for(let i = 0; i < line.length; i++) {
         let [ locations, distances ] = line[i].split(' = ');
-        unsortedRoutes[locations] = parseInt(distances);
+        let [ location1, location2 ]  = locations.split(' to ');
+        let flipLocations = `${location2} to ${location1}`;
+        routes[locations] = parseInt(distances);
+        routes[flipLocations] = parseInt(distances);
     }
 
-    console.log(unsortedRoutes);
+    // Array with routes
+    routesArr = objToArr(routes);
 
-    // Sort from shortest to longest distances
-    shortestToLongestDistances = Object.keys(unsortedRoutes).sort(function(a,b) {
-        return unsortedRoutes[a] - unsortedRoutes[b];
-    });
-
-    // New object with sorted location pairs -> distances
-    for(let i = 0; i < shortestToLongestDistances.length; i++) {
-        for (let key of Object.keys(unsortedRoutes)) {
-            if (key === shortestToLongestDistances[i]) {
-                sortedRoutes[key] = unsortedRoutes[key];
-            }
-        }
-    }
-
-    // Identify unique locations
-    for(let i = 0; i < shortestToLongestDistances.length; i++) {
-        const [ pointA, pointB ] = shortestToLongestDistances[i].split(' to ');
+    // Object with unique locations
+    for(let i = 0; i < routesArr.length; i++) {
+        const [ pointA, pointB ] = routesArr[i].split(' to ');
         if(!uniqueLocations[pointA]) {
             uniqueLocations[pointA] = 1;
         }
@@ -42,10 +45,51 @@ const getShortestRoute = () => {
         }
     }
 
+    // Array with unique locations
+    uniqueLocationsArr = objToArr(uniqueLocations);
+
+    // Permutation logic
+    const permutator = (inputArr) => {
+        let results = [];
+        const permute = (arr, m = []) => {
+            if(arr.length === 0) {
+                results.push(m);
+            } else {
+                for(let i = 0; i < arr.length; i++) {
+                    let dupArr = arr.slice();
+                    let tempArr = dupArr.splice(i, 1);
+                    permute(dupArr.slice(), m.concat(tempArr));
+                }
+            }
+        }
+        permute(uniqueLocationsArr);
+        return results;
+    }
+
+    // Permuted array
+    combosArr = permutator(uniqueLocationsArr);
+
+    // Distance logic
+    for(let i = 0; i < combosArr.length; i++) {
+        let temp = combosArr[i];
+        let counter = 0;
+        for(let j = 0; j < temp.length-1; j++) {
+            if(routes[`${temp[j]} to ${temp[j + 1]}`]) {
+                counter += routes[`${temp[j]} to ${temp[j + 1]}`];
+            }
+        }
+        combos[temp] = counter;
+    }
+
+    // Object with sorted combos
+    const sortedCombos = sortObj(combos);
+
+    return [Object.keys(sortedCombos)[0] , sortedCombos[Object.keys(sortedCombos)[0]]];
 }
 
 const solutionPart1 = () => {
-    console.log(`The shortest route would be ${getShortestRoute()}`);
+    const answer = getShortestRoute();
+    console.log(`The shortest of these is ${answer[0]} with a distance of ${answer[1]}.`);
 }
 
 solutionPart1();
