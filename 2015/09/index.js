@@ -20,7 +20,7 @@ const objToArr = (obj) => {
 
 const getShortestRoute = () => {
     const routes = {}, uniqueLocations = {}, combos = {};
-    let uniqueLocationsArr, routesArr, combosArr;
+    let routesArr, uniqueLocationsArr, combosArr;
 
     // Object with routes
     for(let i = 0; i < line.length; i++) {
@@ -82,14 +82,18 @@ const getShortestRoute = () => {
     }
 
     // Object with sorted combos
-    const sortedCombos = sortObj(combos);
-
-    return [Object.keys(sortedCombos)[0] , sortedCombos[Object.keys(sortedCombos)[0]]];
+    return sortObj(combos);
 }
 
 const solutionPart1 = () => {
     const answer = getShortestRoute();
-    console.log(`The shortest of these is ${answer[0]} with a distance of ${answer[1]}.`);
+    console.log(`The shortest of these is ${Object.keys(answer)[0]} with a distance of ${answer[Object.keys(answer)[0]]}.`);
+}
+
+const solutionPart2 = () => {
+    const answer = getShortestRoute();
+    console.log(`The longest of these is ${Object.keys(answer)[Object.keys(answer).length - 1]} with a distance of ${answer[Object.keys(answer)[Object.keys(answer).length - 1]]}.`);
 }
 
 solutionPart1();
+solutionPart2();
