@@ -1,4 +1,4 @@
-// Find all the possible n combinations of array, arr
+// Find all the possible n combinations of array
 const combos = (arr, n) => {
     // Base case 1: if it's asking for as many or more combinations than there are elements, return the entire array
     if(n >= arr.length) {
@@ -27,4 +27,4 @@ const combos = (arr, n) => {
     }
 }
 
-console.log(combos([ 1, 2, 3, 4, 5 ], 2));
+console.log(combos([ 1, 2, 3, 4], 3));
